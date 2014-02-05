@@ -98,7 +98,6 @@
     // present connecting alert windows until connection establish or time out
     self.Alert = [[UIAlertView alloc] initWithTitle:@"Connecting" message:@"Try to connect Server" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
     [self.Alert show];
-    
 }
 
 -(void)sendMsg:(NSString *)msg
@@ -142,7 +141,7 @@
     [self.inputStream open];
     [self.outputStream open];
     
-    //[self joinChat]; timer no work if enable
+    //[self joinChat]; timer not work if enable
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(connectTimeOut) userInfo:nil repeats:NO];
     
 }
@@ -156,6 +155,7 @@
 {
     // time out for conected
     if (stateOfconnection) {
+        NSLog(@"Timeout invalid, server connected.");
         
     } else {
         // timeout
@@ -181,6 +181,14 @@
      
 }
 
+
+- (void)ServerConnected
+{
+    [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
+    stateOfconnection = YES;
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(joinChat) userInfo:nil repeats:NO];
+}
+
 - (void)closeStream:(NSStream *)stream
 {
     [stream close];
@@ -192,6 +200,7 @@
 {
     [self closeStream:self.inputStream];
     [self closeStream:self.outputStream];
+    stateOfconnection = NO;
 }
 
 - (void)messageReceived:(NSString *)message
@@ -291,9 +300,12 @@
 {
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
-            NSLog(@"Stream opened");
-            [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
-            stateOfconnection = YES;
+            if (!stateOfconnection) {
+                NSLog(@"Stream opened");
+                [self ServerConnected];
+            } else {
+                NSLog(@"Stream already opended");
+            }
             break;
         case NSStreamEventHasBytesAvailable:
             NSLog(@"Msg received");
@@ -318,17 +330,19 @@
             break;
         case NSStreamEventErrorOccurred:
             NSLog(@"Cannot connect to the host");
-            stateOfconnection = NO;
-            [theStream close];
-            [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
-            //back to chart mode
+            [self disconnectServer];
+            
+            // stateOfconnection = NO;
+            // [theStream close];
+            // [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+            // [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
+            // back to chart mode
             break;
         case NSStreamEventEndEncountered:
             NSLog(@"Server close the connection");
             [theStream close];
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-            // back to chart mode
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             break;
         case NSStreamEventHasSpaceAvailable:
             NSLog(@"Steam can accept bytes for writing");
