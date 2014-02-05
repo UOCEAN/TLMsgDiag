@@ -142,7 +142,7 @@
     [self.inputStream open];
     [self.outputStream open];
     
-    //[self joinChat];
+    //[self joinChat]; timer no work if enable
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(connectTimeOut) userInfo:nil repeats:NO];
     
 }
