@@ -17,6 +17,7 @@
 {
     NSMutableArray *_showMsg;
     NSMutableArray *_messages;
+    BOOL stateOfconnection;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -31,6 +32,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    stateOfconnection = NO;
+    
     NSLog(@"SvrIP: %@, SvrPort: %@, iam: %@",
           self.parameterUse.svrIPaddress,
           self.parameterUse.svrPortNo,
@@ -139,7 +142,8 @@
     [self.inputStream open];
     [self.outputStream open];
     
-    [self joinChat];
+    //[self joinChat];
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(connectTimeOut) userInfo:nil repeats:NO];
     
 }
 
@@ -148,8 +152,28 @@
     [self initNetworkCommunication];
 }
 
+- (void)connectTimeOut
+{
+    // time out for conected
+    if (stateOfconnection) {
+        
+    } else {
+        // timeout
+        [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
+        
+        UIAlertView *alert;
+        alert = [[UIAlertView alloc] initWithTitle:@"*** Error ***" message:@"Failed to connect!" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:nil, nil];
+        [alert show];
+        [self disconnectServer];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        
+    }
+    
+}
+
 - (void)tryConnectServer
 {
+    // show Alert popup first
     [self presentAlertConnecting];
     
     // timer to call network init
@@ -269,6 +293,7 @@
         case NSStreamEventOpenCompleted:
             NSLog(@"Stream opened");
             [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
+            stateOfconnection = YES;
             break;
         case NSStreamEventHasBytesAvailable:
             NSLog(@"Msg received");
@@ -293,6 +318,7 @@
             break;
         case NSStreamEventErrorOccurred:
             NSLog(@"Cannot connect to the host");
+            stateOfconnection = NO;
             [theStream close];
             [theStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
             [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
