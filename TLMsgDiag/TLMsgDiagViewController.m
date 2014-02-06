@@ -118,7 +118,7 @@
     NSLog(@"Svr IP: %@, Svr Port: %@, iam: %@", self.currentParameter.svrIPaddress,
           self.currentParameter.svrPortNo,
           self.currentParameter.iamName);
-    
+    [self saveConfigParemeter];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
