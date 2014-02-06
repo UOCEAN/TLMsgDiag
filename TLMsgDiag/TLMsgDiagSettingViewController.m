@@ -8,6 +8,7 @@
 
 #import "TLMsgDiagSettingViewController.h"
 #import "ConfigParameter.h"
+#import "HudView.h"
 
 @interface TLMsgDiagSettingViewController ()
 
@@ -43,6 +44,19 @@
 
 
 - (IBAction)btnDone:(id)sender
+{
+    if (self.parameterEdit == nil) {
+        HudView *hudView = [HudView hudInView:self.navigationController.view animated:YES];
+        hudView.text = @"Added";
+        [self performSelector:@selector(closeScreen) withObject:nil afterDelay:1.0];
+    } else {
+        HudView *hudView = [HudView hudInView:self.navigationController.view animated:YES];
+        hudView.text = @"Updated";
+        [self performSelector:@selector(closeScreen) withObject:nil afterDelay:1.0];
+    }
+}
+
+- (void)closeScreen
 {
     if (self.parameterEdit == nil) {
         ConfigParameter *para = [[ConfigParameter alloc] init];

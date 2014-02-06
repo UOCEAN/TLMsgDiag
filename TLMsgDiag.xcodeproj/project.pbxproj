@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C30CA1618A3328F00A914D3 /* HudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C30CA1518A3328F00A914D3 /* HudView.m */; };
 		5CD6842D18A1CF3C00B7389F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD6842C18A1CF3C00B7389F /* Foundation.framework */; };
 		5CD6842F18A1CF3C00B7389F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD6842E18A1CF3C00B7389F /* CoreGraphics.framework */; };
 		5CD6843118A1CF3C00B7389F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CD6843018A1CF3C00B7389F /* UIKit.framework */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5C30CA1418A3328F00A914D3 /* HudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudView.h; sourceTree = "<group>"; };
+		5C30CA1518A3328F00A914D3 /* HudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudView.m; sourceTree = "<group>"; };
 		5CD6842918A1CF3C00B7389F /* TLMsgDiag.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TLMsgDiag.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CD6842C18A1CF3C00B7389F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5CD6842E18A1CF3C00B7389F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -121,6 +124,8 @@
 		5CD6843218A1CF3C00B7389F /* TLMsgDiag */ = {
 			isa = PBXGroup;
 			children = (
+				5C30CA1418A3328F00A914D3 /* HudView.h */,
+				5C30CA1518A3328F00A914D3 /* HudView.m */,
 				5CD6843B18A1CF3C00B7389F /* TLMsgDiagAppDelegate.h */,
 				5CD6843C18A1CF3C00B7389F /* TLMsgDiagAppDelegate.m */,
 				5CD6843E18A1CF3C00B7389F /* Main.storyboard */,
@@ -269,6 +274,7 @@
 				5CD6846918A1DBE600B7389F /* ConfigParameter.m in Sources */,
 				5CD6844318A1CF3C00B7389F /* TLMsgDiagViewController.m in Sources */,
 				5CD6843D18A1CF3C00B7389F /* TLMsgDiagAppDelegate.m in Sources */,
+				5C30CA1618A3328F00A914D3 /* HudView.m in Sources */,
 				5CD6846618A1D05900B7389F /* TLMsgDiagSettingViewController.m in Sources */,
 				5CD6846318A1D00500B7389F /* TLMsgDiagConnectedViewController.m in Sources */,
 			);

@@ -18,6 +18,7 @@
     NSMutableArray *_showMsg;
     NSMutableArray *_messages;
     BOOL stateOfconnection;
+    NSTimer *_connectionTimeOut;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -34,10 +35,7 @@
     [super viewDidLoad];
     stateOfconnection = NO;
     
-    NSLog(@"SvrIP: %@, SvrPort: %@, iam: %@",
-          self.parameterUse.svrIPaddress,
-          self.parameterUse.svrPortNo,
-          self.parameterUse.iamName);
+    NSLog(@"SvrIP: %@, SvrPort: %@, iam: %@", self.parameterUse.svrIPaddress, self.parameterUse.svrPortNo, self.parameterUse.iamName);
     
     // message queue
     _messages = [[NSMutableArray alloc] initWithCapacity:20];
@@ -120,7 +118,7 @@
     
     // GFWDC01 IP address
     NSString *svrIP = self.parameterUse.svrIPaddress;
-    NSLog(@"Server & Port: %@:%@", svrIP, self.parameterUse.svrPortNo);
+    // NSLog(@"Server & Port: %@:%@", svrIP, self.parameterUse.svrPortNo);
     
     CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)svrIP, [self.parameterUse.svrPortNo intValue], &readStream, &writeStream);
     
@@ -142,8 +140,7 @@
     [self.outputStream open];
     
     //[self joinChat]; timer not work if enable
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(connectTimeOut) userInfo:nil repeats:NO];
-    
+    _connectionTimeOut = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(connectTimeOut) userInfo:nil repeats:NO];
 }
 
 - (void)aCommInitTimer
@@ -155,8 +152,7 @@
 {
     // time out for conected
     if (stateOfconnection) {
-        NSLog(@"Timeout invalid, server connected.");
-        
+        // NSLog(@"Timeout invalid, server connected.");
     } else {
         // timeout
         [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
@@ -186,7 +182,12 @@
 {
     [self.Alert dismissWithClickedButtonIndex:0 animated:YES];
     stateOfconnection = YES;
-    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(joinChat) userInfo:nil repeats:NO];
+    
+    // stop connection timeout
+    [_connectionTimeOut invalidate];
+    
+    // send joinChat msg after one second
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(joinChat) userInfo:nil repeats:NO];
 }
 
 - (void)closeStream:(NSStream *)stream
@@ -212,7 +213,7 @@
     [dateFormatter setDateFormat:@"hh:mm:ss>>"];
     NSString *resultString = [dateFormatter stringFromDate:currentTime];
     NSString *timeStampMessage = [resultString stringByAppendingString:message];
-    NSLog(@"Time Stamp msg: %@", timeStampMessage);
+    // NSLog(@"Time Stamp msg: %@", timeStampMessage);
     
     long no_count = [_showMsg count];
     if (no_count >= 30) {
@@ -249,7 +250,7 @@
             
             if ([tclientName isEqualToString:@"MBA"]) {
                 // own msg no need to proceed
-                NSLog(@"Own msg, nil action");
+                // NSLog(@"Own msg, nil action");
             } else {
                 NSRange endSite = [tmsgContent rangeOfString:@"@"];
                 if (endSite.length !=0) {
@@ -301,14 +302,14 @@
     switch (streamEvent) {
         case NSStreamEventOpenCompleted:
             if (!stateOfconnection) {
-                NSLog(@"Stream opened");
+                // NSLog(@"Stream opened");
                 [self ServerConnected];
             } else {
-                NSLog(@"Stream already opended");
+                // NSLog(@"Stream already opended");
             }
             break;
         case NSStreamEventHasBytesAvailable:
-            NSLog(@"Msg received");
+            // NSLog(@"Msg received");
             // msg received
             if (theStream == self.inputStream)
             {
