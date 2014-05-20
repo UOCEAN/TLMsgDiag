@@ -220,6 +220,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Chentou TONG";
 				TargetAttributes = {
+					5CD6842818A1CF3C00B7389F = {
+						DevelopmentTeam = C7RZ55UYB2;
+					};
 					5CD6844918A1CF3C00B7389F = {
 						TestTargetID = 5CD6842818A1CF3C00B7389F;
 					};
@@ -401,10 +404,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TLMsgDiag/TLMsgDiag-Prefix.pch";
 				INFOPLIST_FILE = "TLMsgDiag/TLMsgDiag-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "A8BAA261-C887-4C0A-B1B4-FF50026620D4";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -414,10 +420,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TLMsgDiag/TLMsgDiag-Prefix.pch";
 				INFOPLIST_FILE = "TLMsgDiag/TLMsgDiag-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "A8BAA261-C887-4C0A-B1B4-FF50026620D4";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
